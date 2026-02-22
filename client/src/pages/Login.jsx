@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../firebase'; // Ensure this path is correct based on your folder structure
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -36,30 +36,73 @@ const Login = () => {
   };
 
   return (
-    <div style={{ padding: '40px', maxWidth: '400px', margin: '0 auto' }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <input 
-          type="email" 
-          placeholder="Email Address" 
-          onChange={(e) => setEmail(e.target.value)} 
-          required 
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          onChange={(e) => setPassword(e.target.value)} 
-          required 
-        />
-        <button type="submit" style={{ padding: '10px', background: '#333', color: '#fff', border: 'none', cursor: 'pointer' }}>
-          Login
-        </button>
-      </form>
-      <p style={{ marginTop: '15px' }}>
-        Don't have an account? <a href="/signup">Sign up</a>
-      </p>
+    <div style={containerStyle}>
+      <div style={cardStyle}>
+        <h2 style={{ color: 'var(--primary-blue)', textAlign: 'center', marginBottom: '20px' }}>Login</h2>
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <input 
+            type="email" 
+            placeholder="Email Address" 
+            style={inputStyle}
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+          />
+          <input 
+            type="password" 
+            placeholder="Password" 
+            style={inputStyle}
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+          />
+          <button type="submit" style={buttonStyle}>
+            Login
+          </button>
+        </form>
+        <p style={{ marginTop: '15px', textAlign: 'center' }}>
+          Don't have an account? <span 
+            onClick={() => navigate('/signup')} 
+            style={{ color: 'var(--primary-blue)', cursor: 'pointer', fontWeight: 'bold' }}
+          >Sign up</span>
+        </p>
+      </div>
     </div>
   );
+};
+
+// --- Styles defined locally to fix the 'not defined' error ---
+const containerStyle = { 
+  minHeight: '80vh', 
+  display: 'flex', 
+  justifyContent: 'center', 
+  alignItems: 'center', 
+  background: 'linear-gradient(135deg, var(--surface-white) 0%, var(--mint-bg) 100%)' 
+};
+
+const cardStyle = { 
+  padding: '40px', 
+  background: 'white', 
+  borderRadius: '15px', 
+  boxShadow: '0 8px 30px rgba(0,0,0,0.05)', 
+  width: '100%', 
+  maxWidth: '400px' 
+};
+
+const inputStyle = { 
+  padding: '12px', 
+  borderRadius: '8px', 
+  border: '1px solid #ddd',
+  fontSize: '16px'
+};
+
+const buttonStyle = { 
+  padding: '14px', 
+  background: 'var(--primary-blue)', 
+  color: 'white', 
+  border: 'none', 
+  borderRadius: '8px', 
+  fontWeight: 'bold',
+  fontSize: '16px',
+  cursor: 'pointer'
 };
 
 export default Login;

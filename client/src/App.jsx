@@ -9,19 +9,34 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Simple Navigation for testing */}
-        <nav style={{ padding: '15px', background: '#333', color: '#fff', display: 'flex', gap: '20px' }}>
-          <Link to="/" style={{ color: '#fff' }}>Home</Link>
-          <Link to="/signup" style={{ color: '#fff' }}>Sign Up</Link>
-          <Link to="/login" style={{ color: '#fff' }}>Login</Link>
+        <nav style={{ 
+          padding: '1rem 2rem', 
+          background: 'var(--primary-blue)', 
+          color: 'white', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
+        }}>
+          <h2 style={{ margin: 0 }}>🌿 FreshDash</h2>
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Home</Link>
+            <Link to="/signup" style={{ color: 'white', textDecoration: 'none' }}>Sign Up</Link>
+            <Link to="/login" style={{ 
+              background: 'var(--mint-bg)', 
+              color: 'var(--text-dark)', 
+              padding: '6px 18px', 
+              borderRadius: '20px', 
+              textDecoration: 'none',
+              fontWeight: 'bold'
+            }}>Login</Link>
+          </div>
         </nav>
 
         <Routes>
-          <Route path="/" element={<div style={{padding: '20px'}}><h1>🍔 FoodDash Main Page</h1><p>Please Login or Sign Up.</p></div>} />
+          <Route path="/" element={<div style={{padding: '50px', textAlign: 'center'}}><h1>Welcome to FreshDash</h1><p>Fresh meals, fast delivery.</p></div>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          
-          {/* Role-Based Dashboard Routes */}
           <Route path="/home" element={<CustomerHome />} />
           <Route path="/restaurant-dashboard" element={<RestaurantDashboard />} />
           <Route path="/delivery-dashboard" element={<DeliveryDashboard />} />
