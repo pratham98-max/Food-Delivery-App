@@ -1,28 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/User'); // Ensure this path matches your project structure
 
 /**
  * @route   POST /api/auth/signup
- * @desc    Register a new user with a specific role
+ * @desc    Register a new user (Email or Google)
  * @access  Public
  */
 router.post('/signup', async (req, res) => {
   try {
-    const { name, email, firebaseUid, role } = req.body;
+    const { name, email, firebaseUid, role, password } = req.body;
 
-    // 1. Check if the user already exists in MongoDB
-    let user = await User.findOne({ firebaseUid });
+    // 1. Check if the user already exists by email OR firebaseUid
+    // This prevents duplicate accounts if a user tries both signup methods
+    let user = await User.findOne({ 
+      $or: [{ firebaseUid }, { email }] 
+    });
+
     if (user) {
       return res.status(400).json({ message: "User already exists in database" });
     }
 
     // 2. Create and save the new user
+    // Note: 'password' is not passed for Google signups
     user = new User({
       name,
       email,
       firebaseUid,
-      role // 'customer', 'restaurant', or 'delivery'
+      role, // 'customer', 'restaurant', or 'delivery'
+      password: password || undefined 
     });
 
     const savedUser = await user.save();
@@ -35,7 +41,7 @@ router.post('/signup', async (req, res) => {
 
 /**
  * @route   POST /api/auth/login
- * @desc    Verify user existence and return role for redirection
+ * @desc    Verify user existence and return profile data for redirection
  * @access  Public
  */
 router.post('/login', async (req, res) => {

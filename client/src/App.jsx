@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import CustomerHome from './pages/CustomerHome';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import DeliveryDashboard from './pages/DeliveryDashboard';
+import RestaurantDetail from './pages/RestaurantDetail';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="/home" element={<CustomerHome />} />
           <Route path="/restaurant-dashboard" element={<RestaurantDashboard />} />
           <Route path="/delivery-dashboard" element={<DeliveryDashboard />} />
+          <Route path="/restaurant/:id" element={<RestaurantDetail />} />
         </Routes>
       </div>
     </Router>

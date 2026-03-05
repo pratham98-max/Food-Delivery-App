@@ -8,7 +8,6 @@ const UserSchema = new mongoose.Schema({
     role: { 
         type: String, 
         enum: ['customer', 'restaurant', 'delivery'], 
-        required: true 
     },
     phoneNumber: { type: String },
     createdAt: { type: Date, default: Date.now }
