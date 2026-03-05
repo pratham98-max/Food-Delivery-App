@@ -1,47 +1,58 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import CustomerHome from './pages/CustomerHome';
 import RestaurantDashboard from './pages/RestaurantDashboard';
 import DeliveryDashboard from './pages/DeliveryDashboard';
 import RestaurantDetail from './pages/RestaurantDetail';
+import ProtectedRoute from './components/ProtectedRoute'; // 👈 Step 1: Import the new protector
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <nav style={{ 
-          padding: '1rem 2rem', 
-          background: 'var(--primary-blue)', 
-          color: 'white', 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
-        }}>
-          <h2 style={{ margin: 0 }}>🌿 FreshDash</h2>
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Home</Link>
-            <Link to="/signup" style={{ color: 'white', textDecoration: 'none' }}>Sign Up</Link>
-            <Link to="/login" style={{ 
-              background: 'var(--mint-bg)', 
-              color: 'var(--text-dark)', 
-              padding: '6px 18px', 
-              borderRadius: '20px', 
-              textDecoration: 'none',
-              fontWeight: 'bold'
-            }}>Login</Link>
-          </div>
-        </nav>
-
+        {/* We do NOT have a global navbar here. 
+            Each page handles its own specific header. */}
         <Routes>
-          <Route path="/" element={<div style={{padding: '50px', textAlign: 'center'}}><h1>Welcome to FreshDash</h1><p>Fresh meals, fast delivery.</p></div>} />
+          {/* Public Routes: Anyone can see these */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<CustomerHome />} />
-          <Route path="/restaurant-dashboard" element={<RestaurantDashboard />} />
-          <Route path="/delivery-dashboard" element={<DeliveryDashboard />} />
-          <Route path="/restaurant/:id" element={<RestaurantDetail />} />
+
+          {/* Protected Routes: User MUST login or sign up first */}
+          <Route 
+            path="/home" 
+            element={
+              <ProtectedRoute>
+                <CustomerHome />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/restaurant-dashboard" 
+            element={
+              <ProtectedRoute>
+                <RestaurantDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/delivery-dashboard" 
+            element={
+              <ProtectedRoute>
+                <DeliveryDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/restaurant/:id" 
+            element={
+              <ProtectedRoute>
+                <RestaurantDetail />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </div>
     </Router>
